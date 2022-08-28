@@ -17,6 +17,10 @@ const mainNav = [
     {
         display: "Contact",
         path: "/contact"
+    },
+    {
+        display: "Create  Product",
+        path: "/CreateProduct"
     }
 ]
 
