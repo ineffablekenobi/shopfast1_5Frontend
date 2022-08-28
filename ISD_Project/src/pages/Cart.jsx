@@ -26,7 +26,41 @@ const Cart = () => {
         setTotalProducts(cartItems.reduce((total, item) => total + Number(item.quantity), 0))
     }, [cartItems])
 
+    const axios = require('axios').default;
+
+    const handleOrder = () =>{
+
+        var orderRequest = {
+            "username" : "ineffable",
+            "subOrders" : {}
+        }
+
+        cartProducts.forEach((item) => {
+            var pid = item.product.productid;
+            orderRequest.subOrders[pid] = item.quantity;
+        })
+
+        axios.post("http://localhost:8080/order/create",
+        orderRequest
+        ).then(
+            function(response){
+                alert("Order Placed");
+                console.log("Request Successful: ");
+                console.log(response)
+            }
+        ).catch(function(error){
+            console.log(error);
+        } )
+
+
+
+    }
+
     return (
+        <div>        
+           
+
+
         <Helmet title="Cart">
             <div className="cart">
                 <div className="cart__info">
@@ -41,10 +75,13 @@ const Cart = () => {
                     <div className="cart__info__btn">
 
                         
-                        
-                        <Button size="block">
-                            Order
+                        <Link to="/catalog">                        
+                        <Button size="block" onClick={handleOrder}>
+                            Place Order
                         </Button>
+                        </Link>
+
+
                         <Link to="/catalog">
                             <Button size="block">
                                 Continue shopping
@@ -62,6 +99,7 @@ const Cart = () => {
                 </div>
             </div>
         </Helmet>
+        </div>
     )
 }
 

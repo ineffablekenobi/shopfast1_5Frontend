@@ -250,6 +250,41 @@ const products = [
     // 18 products
 ]
 
+const axios = require('axios').default;
+var lst;
+axios.get("http://localhost:8080/product/").then(function (respose) {
+    lst  = respose.data;
+    lst.forEach((item) =>{
+        var disp = {
+        productid : item.productid,
+        title: item.title,
+        price: item.price,
+        image01: item.image01,
+        image02: item.image02,
+        categorySlug: item.categorySlug,
+        colors: [],
+        slug: item.slug,
+        size: [],
+        description: item.description
+        }
+
+        item.variantList.forEach((elmn) => {
+            var variant = elmn.vid;
+            if(elmn.vid.variantName == "color"){
+                disp.colors.push(elmn.vid.variantValue);
+            }else if(elmn.vid.variantName == "size"){
+                disp.size.push(elmn.vid.variantValue)
+            }
+        })
+
+        products.push(disp);
+
+    })
+}).catch(function (error) {
+    console.log(error);
+})
+
+
 const getAllProducts = () => products
 
 const getProducts = (count) => {
