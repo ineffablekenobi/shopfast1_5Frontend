@@ -9,6 +9,7 @@ import ProductViewModal from './ProductViewModal'
 import Routes from '../routes/Routes'
 
 const Layout = () => {
+  localStorage.setItem("username", "undefined")
     return (
         <BrowserRouter>
             <Route render={props => (

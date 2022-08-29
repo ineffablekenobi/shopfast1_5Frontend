@@ -20,6 +20,8 @@ const Cart = () => {
 
     const [totalPrice, setTotalPrice] = useState(0)
 
+    const loggedin = localStorage.getItem("username")=="undefined"? false: true;
+
     useEffect(() => {
         setCartProducts(productData.getCartItemsInfo(cartItems))
         setTotalPrice(cartItems.reduce((total, item) => total + (Number(item.quantity) * Number(item.price)), 0))
@@ -29,6 +31,11 @@ const Cart = () => {
     const axios = require('axios').default;
 
     const handleOrder = () =>{
+
+        if(!loggedin){
+            alert("Please log in")
+            return;
+        }
 
         var orderRequest = {
             "username" : "ineffable",

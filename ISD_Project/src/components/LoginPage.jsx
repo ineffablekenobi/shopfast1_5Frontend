@@ -2,14 +2,35 @@
 
 import { Link, useLocation } from 'react-router-dom'
 import React, { useState } from 'react'
+import Button from './Button';
+
+
 
 
 const LoginPage = () => {
+    const axios = require('axios').default;
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log({username,password})
+        var obj ={
+            "username" : username,
+            "password" : password
+        }
+
+
+        axios.post("http://localhost:8080/user/login",
+        obj
+        ).then(
+            function(response){
+                console.log("Request Successful: ");
+                console.log(response)
+                alert("Logged in SUCCESSFULLY")
+                localStorage.setItem("username", response.data.username)
+            }
+        ).catch(function(error){
+            console.log(error);
+        } )
 
     }
 
@@ -24,6 +45,12 @@ const LoginPage = () => {
       setIsSHown((isShown) => !isShown);
     };
 
+    const handleLogout = () => {
+        console.log(localStorage.getItem("username"))
+        localStorage.setItem("username", "undefined");
+    }
+
+    if(localStorage.getItem("username")== "undefined"){
     return(
         <div className="container_register">
         <div className="app-wrapper">
@@ -78,6 +105,13 @@ const LoginPage = () => {
         </div>
 
     );
+    }else{
+        return(
+        <Link to="/">
+        <Button onClick={handleLogout}>Logout</Button>
+        </Link>
+        );
+    }
 }
 
 export default LoginPage;

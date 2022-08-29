@@ -25,6 +25,7 @@ const Register = () => {
             function(response){
                 console.log("Request Successful: ");
                 console.log(response)
+                alert("REGISTERED SUCCESSFULLY")
             }
         ).catch(function(error){
             console.log(error);
@@ -143,6 +144,7 @@ const Register = () => {
                 
                 <div>
                     <button className="submit">Register</button>
+                    
                     </div> 
                     <div className="hi">
                     <footer>

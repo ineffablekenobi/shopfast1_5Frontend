@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import logo from '../assets/images/Logo.png'
@@ -29,6 +29,7 @@ const Header = () => {
     const { pathname } = useLocation()
     const activeNav = mainNav.findIndex(e => e.path === pathname)
 
+
     const headerRef = useRef(null)
 
     useEffect(() => {
@@ -41,6 +42,8 @@ const Header = () => {
         })
 
     }, []);
+
+    var loggedInuser = localStorage.getItem("username");
 
     const menuLeft = useRef(null)
 
@@ -63,17 +66,23 @@ const Header = () => {
                             <i className='bx bx-chevron-left'></i>
                         </div>
                         {
-                            mainNav.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className={`header__menu__item header__menu__left__item ${index === activeNav ? 'active' : ''}`}
-                                    onClick={menuToggle}
-                                >
-                                    <Link to={item.path}>
-                                        <span>{item.display}</span>
-                                    </Link>
-                                </div>
-                            ))
+                            mainNav.map((item, index) => {
+                                
+                                if(loggedInuser=="ineffable" || item.path != "/CreateProduct"){
+                                    return(
+                                    <div
+                                        key={index}
+                                        className={`header__menu__item header__menu__left__item ${index === activeNav ? 'active' : ''}`}
+                                        onClick={menuToggle}
+                                    >
+                                        <Link to={item.path}>
+                                            <span>{item.display}</span>
+                                        </Link>
+                                    </div>
+                                    )
+                                   
+                                }
+                            })
                         }
                     </div>
                     <div className="header__menu__right">
