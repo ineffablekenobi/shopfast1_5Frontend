@@ -78,6 +78,11 @@ const CreateProduct = () => {
       "variantList": []
     }
 
+    if(price < 0){
+      alert("Price cant be negative")
+      return;
+    }
+
     if(red){
       const variant =
       {

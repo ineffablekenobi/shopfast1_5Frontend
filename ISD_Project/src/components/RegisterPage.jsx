@@ -6,6 +6,12 @@ const Register = () => {
 
     const axios = require('axios').default;
 
+    function check(s,c){
+        if(s.contains(c)){
+            return true;
+        }
+        return false;
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,7 +25,55 @@ const Register = () => {
             "ordersList": []
         }
 
-        axios.post("http://localhost:8080/user/create",
+        console.log(username)
+        var fault = false;
+        for(var i = 0; i < username.length; i++){
+            if(username.charAt(i) == ' '){
+                fault = true;
+                break;
+
+            }
+        }
+
+        if(fault){
+            alert("Username Cant have Spaces");
+            return
+        }
+
+        
+
+
+        if(password.length < 4){
+            alert("Password length cant be less than 4")
+            return
+        }
+
+        if(username == "" || firstName == "" || lastName=="" || phoneNumber==""){
+            alert("Field cant be empty")
+            return
+        }
+
+        fault = false;
+
+        for(var i = 0; i < phoneNumber.length; i++){
+            if(phoneNumber.charAt(i) > '9' || phoneNumber.charAt(i) < '0'){
+                fault = true;
+                break
+            }
+        }
+
+        if(fault){
+            alert("Numbers only")
+            return
+        }
+
+        
+
+        axios.get("http://localhost:8080/order/username=" +username).then(function(response){
+            alert("Username exists");
+        }  
+        ).catch(function(error){
+            axios.post("http://localhost:8080/user/create",
         regObj
         ).then(
             function(response){
@@ -30,6 +84,13 @@ const Register = () => {
         ).catch(function(error){
             console.log(error);
         } )
+        })
+
+
+
+    
+
+        
 
     }
 
@@ -148,7 +209,7 @@ const Register = () => {
                     </div> 
                     <div className="hi">
                     <footer>
-            <p> <Link to="/login"><b><h3>Alrady have an account !!!</h3></b></Link>.</p>
+            <p> <Link to="/login"><b><h3>Already have an account !!!</h3></b></Link>.</p>
             
         </footer>
                 </div>
